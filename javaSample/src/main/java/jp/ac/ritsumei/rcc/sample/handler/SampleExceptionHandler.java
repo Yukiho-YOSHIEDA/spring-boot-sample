@@ -24,7 +24,10 @@ public class SampleExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleAllException(Exception ex, WebRequest request) {
         SampleException exceptionResponse = new SampleException("SampleException");
         ex.printStackTrace();
-        return super.handleExceptionInternal(ex, exceptionResponse, null,
+
+        System.out.println(exceptionResponse);
+
+        return this.handleExceptionInternal(ex, exceptionResponse, null,
                 HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
@@ -32,8 +35,10 @@ public class SampleExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
                                                              HttpStatus status, WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse();
-        exceptionResponse.setMessage("SampleException");
-        return super.handleExceptionInternal(ex, exceptionResponse, headers,
-                status, request);
+        exceptionResponse.setMessage("Exception");
+
+        ex.printStackTrace();
+
+        return new ResponseEntity<>(body, headers, status);
     }
 }
